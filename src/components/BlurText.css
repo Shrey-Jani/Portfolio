@@ -1,0 +1,97 @@
+.blur-text-container {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.blur-text-word,
+.blur-text-char {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.blur-text-word.animate,
+.blur-text-char.animate {
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateY(0px);
+}
+
+/* Direction-specific transforms */
+.blur-text-word[style*="top"],
+.blur-text-char[style*="top"] {
+  transform: translateY(-20px);
+}
+
+.blur-text-word.animate[style*="top"],
+.blur-text-char.animate[style*="top"] {
+  transform: translateY(0px);
+}
+
+.blur-text-word[style*="bottom"],
+.blur-text-char[style*="bottom"] {
+  transform: translateY(20px);
+}
+
+.blur-text-word.animate[style*="bottom"],
+.blur-text-char.animate[style*="bottom"] {
+  transform: translateY(0px);
+}
+
+.blur-text-word[style*="left"],
+.blur-text-char[style*="left"] {
+  transform: translateX(-20px);
+}
+
+.blur-text-word.animate[style*="left"],
+.blur-text-char.animate[style*="left"] {
+  transform: translateX(0px);
+}
+
+.blur-text-word[style*="right"],
+.blur-text-char[style*="right"] {
+  transform: translateX(20px);
+}
+
+.blur-text-word.animate[style*="right"],
+.blur-text-char.animate[style*="right"] {
+  transform: translateX(0px);
+}
+
+/* Enhanced animation for better visual appeal */
+@keyframes blur-in {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(20px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0px) scale(1);
+  }
+}
+
+.blur-text-word.animate,
+.blur-text-char.animate {
+  animation: blur-in 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Prevent text selection during animation */
+.blur-text-container {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Re-enable text selection after animation */
+.blur-text-word.animate,
+.blur-text-char.animate {
+  user-select: auto;
+  -webkit-user-select: auto;
+  -moz-user-select: auto;
+  -ms-user-select: auto;
+}

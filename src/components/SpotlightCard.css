@@ -1,0 +1,75 @@
+.card-spotlight {
+  position: relative;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.card-spotlight::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    var(--spotlight-color, rgba(255, 255, 255, 0.25)) 0%,
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card-spotlight:hover::before {
+  opacity: 1;
+}
+
+.card-spotlight > * {
+  position: relative;
+  z-index: 2;
+}
+
+.card-spotlight:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: var(--shadow);
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+  .card-spotlight:hover {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Light mode adjustments */
+:root.light .card-spotlight::before {
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(0, 0, 0, 0.1) 0%,
+    transparent 40%
+  );
+}
+
+:root.light .card-spotlight:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Profile Card Spotlight - Increased Height */
+.card-spotlight.profile-spotlight-card {
+  padding: 2rem 1.5rem;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-spotlight.profile-spotlight-card > * {
+  width: 100%;
+}

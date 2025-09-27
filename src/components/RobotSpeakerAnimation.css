@@ -1,0 +1,317 @@
+/* Robot Speaker Animation Styles */
+.robot-speaker-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  --primary-color: #6A0DAD;
+  --secondary-color: #8A2BE2;
+  --accent-color: #FF6B35;
+  --robot-bg: #2A2A3A;
+  --robot-border: #4A4A5A;
+}
+
+/* Robot Head */
+.robot-head {
+  position: relative;
+  width: calc(var(--robot-size) * 0.8);
+  height: calc(var(--robot-size) * 0.8);
+  background: linear-gradient(145deg, var(--robot-bg), #1A1A2A);
+  border: 2px solid var(--robot-border);
+  border-radius: 12px;
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+}
+
+.robot-head.speaking {
+  box-shadow: 
+    0 6px 12px rgba(106, 13, 173, 0.4),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1),
+    0 0 20px rgba(106, 13, 173, 0.3);
+  transform: scale(1.05);
+}
+
+/* Robot Eyes */
+.robot-eyes {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.robot-eye {
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(145deg, #00FF88, #00CC66);
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 
+    0 0 8px rgba(0, 255, 136, 0.5),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+.robot-eye.blinking {
+  animation: robotBlink 2s infinite;
+}
+
+.eye-pupil {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: #003322;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Robot Mouth/Speaker */
+.robot-mouth {
+  width: calc(var(--robot-size) * 0.5);
+  height: calc(var(--robot-size) * 0.25);
+  background: #1A1A2A;
+  border: 1px solid var(--robot-border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+  transition: all 0.3s ease;
+}
+
+.robot-mouth.speaking {
+  background: linear-gradient(145deg, #2A2A3A, #1A1A2A);
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.5),
+    0 0 8px rgba(106, 13, 173, 0.3);
+}
+
+.mouth-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 2px;
+  width: 80%;
+  height: 80%;
+}
+
+.speaker-dot {
+  width: 3px;
+  height: 3px;
+  background: var(--robot-border);
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.speaker-dot.active {
+  background: var(--primary-color);
+  box-shadow: 0 0 4px var(--primary-color);
+  animation: speakerPulse 0.6s infinite alternate;
+  animation-delay: var(--delay);
+}
+
+/* Robot Antenna */
+.robot-antenna {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.antenna-base {
+  width: 2px;
+  height: 8px;
+  background: var(--robot-border);
+  border-radius: 1px;
+}
+
+.antenna-signal {
+  position: relative;
+  width: 6px;
+  height: 6px;
+  background: var(--accent-color);
+  border-radius: 50%;
+  box-shadow: 0 0 4px var(--accent-color);
+}
+
+.robot-antenna.transmitting .antenna-signal {
+  animation: antennaGlow 1s infinite;
+}
+
+.signal-wave {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px solid var(--accent-color);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+
+.robot-antenna.transmitting .signal-wave {
+  animation: signalRipple 2s infinite;
+}
+
+.signal-wave.wave-1 { animation-delay: 0s; }
+.signal-wave.wave-2 { animation-delay: 0.3s; }
+.signal-wave.wave-3 { animation-delay: 0.6s; }
+
+/* Sound Waves */
+.sound-waves {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 10px);
+  transform: translateY(-50%);
+}
+
+.sound-wave {
+  position: absolute;
+  border: 2px solid var(--primary-color);
+  border-left: none;
+  border-radius: 0 50px 50px 0;
+  opacity: 0;
+  animation: soundWaveAnimation 1.5s infinite;
+}
+
+.sound-wave.wave-1 {
+  width: 20px;
+  height: 20px;
+  animation-delay: 0s;
+}
+
+.sound-wave.wave-2 {
+  width: 30px;
+  height: 30px;
+  top: -5px;
+  animation-delay: 0.2s;
+}
+
+.sound-wave.wave-3 {
+  width: 40px;
+  height: 40px;
+  top: -10px;
+  animation-delay: 0.4s;
+}
+
+.sound-wave.wave-4 {
+  width: 50px;
+  height: 50px;
+  top: -15px;
+  animation-delay: 0.6s;
+}
+
+/* Status LED */
+.status-led {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 6px;
+  height: 6px;
+  background: #666;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.status-led.active {
+  background: #00FF88;
+  box-shadow: 0 0 6px rgba(0, 255, 136, 0.6);
+}
+
+.status-led.speaking {
+  background: var(--primary-color);
+  box-shadow: 0 0 8px var(--primary-color);
+  animation: statusPulse 1s infinite;
+}
+
+/* Animations */
+@keyframes robotBlink {
+  0%, 90%, 100% { height: 12px; }
+  95% { height: 2px; }
+}
+
+@keyframes speakerPulse {
+  0% { 
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  100% { 
+    transform: scale(1.5);
+    opacity: 1;
+  }
+}
+
+@keyframes antennaGlow {
+  0%, 100% { 
+    box-shadow: 0 0 4px var(--accent-color);
+    transform: scale(1); 
+  }
+  50% { 
+    box-shadow: 0 0 12px var(--accent-color);
+    transform: scale(1.2); 
+  }
+}
+
+@keyframes signalRipple {
+  0% {
+    width: 6px;
+    height: 6px;
+    opacity: 1;
+  }
+  100% {
+    width: 24px;
+    height: 24px;
+    opacity: 0;
+  }
+}
+
+@keyframes soundWaveAnimation {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1.2) translateX(10px);
+  }
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Hover Effects */
+.robot-speaker-container:hover .robot-head {
+  transform: scale(1.1);
+  box-shadow: 
+    0 8px 16px rgba(106, 13, 173, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.1);
+}
+
+.robot-speaker-container:hover .robot-eye {
+  box-shadow: 
+    0 0 12px rgba(0, 255, 136, 0.8),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sound-wave.wave-1 { width: 15px; height: 15px; }
+  .sound-wave.wave-2 { width: 22px; height: 22px; top: -3px; }
+  .sound-wave.wave-3 { width: 30px; height: 30px; top: -7px; }
+  .sound-wave.wave-4 { width: 38px; height: 38px; top: -11px; }
+}
