@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/TimeGitJenkins/static/css/main.4890a7c3.css",
-    "main.js": "/TimeGitJenkins/static/js/main.4a7e3fd7.js",
-    "index.html": "/TimeGitJenkins/index.html",
-    "main.4890a7c3.css.map": "/TimeGitJenkins/static/css/main.4890a7c3.css.map",
-    "main.4a7e3fd7.js.map": "/TimeGitJenkins/static/js/main.4a7e3fd7.js.map"
+    "main.css": "/Portfolio/static/css/main.9a101cae.css",
+    "main.js": "/Portfolio/static/js/main.87aee290.js",
+    "index.html": "/Portfolio/index.html",
+    "main.9a101cae.css.map": "/Portfolio/static/css/main.9a101cae.css.map",
+    "main.87aee290.js.map": "/Portfolio/static/js/main.87aee290.js.map"
   },
   "entrypoints": [
-    "static/css/main.4890a7c3.css",
-    "static/js/main.4a7e3fd7.js"
+    "static/css/main.9a101cae.css",
+    "static/js/main.87aee290.js"
   ]
 }
