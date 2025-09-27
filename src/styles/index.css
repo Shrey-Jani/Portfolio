@@ -563,6 +563,7 @@ footer {
   justify-content: space-between;
   padding: 20px 0;
   color: var(--muted);
+  color: rgb(233, 223, 235);
   font-size: 14px;
 }
 
@@ -735,8 +736,8 @@ footer {
   }
 
   .profile-avatar {
-    width: 100px;
-    height: 100px;
+    width: 75px;
+    height: 75px;
     margin: 0 auto 20px;
   }
 
@@ -759,8 +760,8 @@ footer {
   }
 
   .profile-avatar {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     margin: 0 auto 16px;
   }
 
@@ -796,8 +797,8 @@ footer {
 
 .profile-avatar {
   position: relative;
-  width: 120px;
-  height: 120px;
+  width: 90px;
+  height: 90px;
   margin: 0 auto 24px;
 }
 

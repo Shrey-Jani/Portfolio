@@ -1,43 +1,45 @@
-import React, { useEffect, useRef, useState } from 'react';
-import './CookieAnimation.css';
+import React, { useEffect, useRef, useState } from "react";
+import "./CookieAnimation.css";
 
 interface CookieAnimationProps {
   isActive?: boolean;
   size?: number;
 }
 
-const CookieAnimation: React.FC<CookieAnimationProps> = ({ 
-  isActive = false, 
-  size = 80 
+const CookieAnimation: React.FC<CookieAnimationProps> = ({
+  isActive = false,
+  size = 80,
 }) => {
-  const [animationPhase, setAnimationPhase] = useState<'mixing' | 'baking' | 'decorating' | 'selling'>('mixing');
+  const [animationPhase, setAnimationPhase] = useState<
+    "mixing" | "baking" | "decorating" | "selling"
+  >("mixing");
   const [isAnimating, setIsAnimating] = useState(false);
   const animationRef = useRef<NodeJS.Timeout>();
 
-  const phases = ['mixing', 'baking', 'decorating', 'selling'] as const;
+  const phases = ["mixing", "baking", "decorating", "selling"] as const;
 
   useEffect(() => {
     if (isActive) {
       setIsAnimating(true);
-      
+
       const cyclePhases = () => {
         let currentPhaseIndex = 0;
-        
+
         const nextPhase = () => {
           setAnimationPhase(phases[currentPhaseIndex]);
           currentPhaseIndex = (currentPhaseIndex + 1) % phases.length;
-          
-          // Each phase lasts 2.5 seconds
-          animationRef.current = setTimeout(nextPhase, 2500);
+
+          // Each phase lasts 1.5 seconds
+          animationRef.current = setTimeout(nextPhase, 1500);
         };
-        
+
         nextPhase();
       };
 
       cyclePhases();
     } else {
       setIsAnimating(false);
-      setAnimationPhase('mixing');
+      setAnimationPhase("mixing");
       if (animationRef.current) {
         clearTimeout(animationRef.current);
       }
@@ -51,19 +53,20 @@ const CookieAnimation: React.FC<CookieAnimationProps> = ({
   }, [isActive]);
 
   return (
-    <div 
+    <div
       className="cookie-animation-container"
-      style={{ 
-        width: size, 
-        height: size,
-        '--cookie-size': `${size}px`
-      } as React.CSSProperties}
+      style={
+        {
+          width: size,
+          height: size,
+          "--cookie-size": `${size}px`,
+        } as React.CSSProperties
+      }
     >
       {/* Cookie Bakery Scene */}
-      <div className={`cookie-bakery ${isAnimating ? 'active' : ''}`}>
-        
+      <div className={`cookie-bakery ${isAnimating ? "active" : ""}`}>
         {/* Mixing Phase */}
-        {animationPhase === 'mixing' && (
+        {animationPhase === "mixing" && (
           <div className="mixing-scene">
             <div className="mixing-bowl">
               <div className="bowl-rim"></div>
@@ -84,7 +87,7 @@ const CookieAnimation: React.FC<CookieAnimationProps> = ({
         )}
 
         {/* Baking Phase */}
-        {animationPhase === 'baking' && (
+        {animationPhase === "baking" && (
           <div className="baking-scene">
             <div className="oven">
               <div className="oven-body"></div>
@@ -109,7 +112,7 @@ const CookieAnimation: React.FC<CookieAnimationProps> = ({
         )}
 
         {/* Decorating Phase */}
-        {animationPhase === 'decorating' && (
+        {animationPhase === "decorating" && (
           <div className="decorating-scene">
             <div className="baked-cookie">
               <div className="cookie-base golden"></div>
@@ -135,7 +138,7 @@ const CookieAnimation: React.FC<CookieAnimationProps> = ({
         )}
 
         {/* Selling Phase */}
-        {animationPhase === 'selling' && (
+        {animationPhase === "selling" && (
           <div className="selling-scene">
             <div className="cookie-package">
               <div className="package-box"></div>
@@ -152,7 +155,10 @@ const CookieAnimation: React.FC<CookieAnimationProps> = ({
               <div className="icing-decoration"></div>
               <div className="sprinkle-decoration">
                 {Array.from({ length: 6 }, (_, i) => (
-                  <div key={i} className={`final-sprinkle sprinkle-${i + 1}`}></div>
+                  <div
+                    key={i}
+                    className={`final-sprinkle sprinkle-${i + 1}`}
+                  ></div>
                 ))}
               </div>
             </div>
@@ -167,19 +173,35 @@ const CookieAnimation: React.FC<CookieAnimationProps> = ({
 
         {/* Phase Indicator */}
         <div className="phase-indicator">
-          <div className={`phase-dot ${animationPhase === 'mixing' ? 'active' : ''}`}></div>
-          <div className={`phase-dot ${animationPhase === 'baking' ? 'active' : ''}`}></div>
-          <div className={`phase-dot ${animationPhase === 'decorating' ? 'active' : ''}`}></div>
-          <div className={`phase-dot ${animationPhase === 'selling' ? 'active' : ''}`}></div>
+          <div
+            className={`phase-dot ${
+              animationPhase === "mixing" ? "active" : ""
+            }`}
+          ></div>
+          <div
+            className={`phase-dot ${
+              animationPhase === "baking" ? "active" : ""
+            }`}
+          ></div>
+          <div
+            className={`phase-dot ${
+              animationPhase === "decorating" ? "active" : ""
+            }`}
+          ></div>
+          <div
+            className={`phase-dot ${
+              animationPhase === "selling" ? "active" : ""
+            }`}
+          ></div>
         </div>
       </div>
 
       {/* Process Label */}
       <div className="process-label">
-        {animationPhase === 'mixing' && 'Mixing...'}
-        {animationPhase === 'baking' && 'Baking...'}
-        {animationPhase === 'decorating' && 'Decorating...'}
-        {animationPhase === 'selling' && 'Ready to Sell!'}
+        {animationPhase === "mixing" && "Mixing..."}
+        {animationPhase === "baking" && "Baking..."}
+        {animationPhase === "decorating" && "Decorating..."}
+        {animationPhase === "selling" && "Ready to Sell!"}
       </div>
     </div>
   );

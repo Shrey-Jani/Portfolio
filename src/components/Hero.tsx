@@ -89,7 +89,7 @@ const Hero: React.FC = () => {
             handle="shrey1807"
             status="Online"
             contactText="Contact Me"
-            avatarUrl="/pic.jpg"
+            avatarUrl={`${process.env.PUBLIC_URL}/images/pic_web.jpg`}
             showUserInfo={true}
             enableTilt={true}
             enableMobileTilt={false}

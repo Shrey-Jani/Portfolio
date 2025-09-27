@@ -102,6 +102,13 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
                   objectFit: "cover",
                   borderRadius: "14px",
                 }}
+                onError={(e) => {
+                  console.error("Failed to load avatar image:", avatarUrl);
+                  console.error("Error event:", e);
+                }}
+                onLoad={() => {
+                  console.log("Avatar image loaded successfully:", avatarUrl);
+                }}
               />
             }
             secondContent={

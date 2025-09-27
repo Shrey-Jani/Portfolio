@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  
+
   const scrollToTop = () => {
-    const element = document.getElementById('top');
+    const element = document.getElementById("top");
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
@@ -14,15 +14,15 @@ const Footer: React.FC = () => {
     <footer>
       <div className="container footer-inner">
         <span>© {currentYear} Shrey Jani</span>
-        <button 
+        <button
           onClick={scrollToTop}
-          style={{ 
-            background: 'none', 
-            border: 'none', 
-            color: 'var(--muted)', 
-            cursor: 'pointer',
-            fontSize: '14px',
-            textDecoration: 'underline'
+          style={{
+            background: "none",
+            border: "none",
+            color: "rgb(233, 223, 235)",
+            cursor: "pointer",
+            fontSize: "14px",
+            textDecoration: "underline",
           }}
         >
           Back to top ↑
