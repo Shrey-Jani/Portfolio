@@ -73,3 +73,26 @@
 .card-spotlight.profile-spotlight-card > * {
   width: 100%;
 }
+
+/* Mobile SpotlightCard */
+@media (max-width: 768px) {
+  .card-spotlight {
+    padding: 1.25rem;
+  }
+
+  .card-spotlight.profile-spotlight-card {
+    padding: 1.5rem 1.25rem;
+    min-height: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-spotlight {
+    padding: 1rem;
+  }
+
+  .card-spotlight.profile-spotlight-card {
+    padding: 1.25rem 1rem;
+    min-height: 300px;
+  }
+}

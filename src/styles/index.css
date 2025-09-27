@@ -50,6 +50,19 @@ body {
   padding: 0 20px;
 }
 
+/* Mobile Container */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 12px;
+  }
+}
+
 /* Header */
 header {
   position: sticky;
@@ -64,6 +77,68 @@ header {
   align-items: center;
   justify-content: space-between;
   height: 72px;
+}
+
+/* Mobile Navigation */
+@media (max-width: 768px) {
+  .nav {
+    height: 60px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  nav ul {
+    gap: 12px;
+    font-size: 14px;
+  }
+
+  .brand {
+    font-size: 14px;
+  }
+
+  .badge {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav {
+    flex-direction: column;
+    height: auto;
+    padding: 12px 0;
+    gap: 16px;
+  }
+
+  nav ul {
+    order: -1;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .nav > div {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  nav ul {
+    gap: 12px;
+    font-size: 13px;
+  }
+
+  nav a {
+    padding: 4px 8px;
+    border-radius: 6px;
+  }
+
+  nav a:hover {
+    background: var(--surface);
+  }
+
+  .brand span {
+    display: none; /* Hide text on very small screens */
+  }
 }
 .brand {
   display: flex;
@@ -110,6 +185,24 @@ nav a:hover {
   box-shadow: var(--shadow);
   cursor: pointer;
 }
+
+/* Mobile Buttons */
+@media (max-width: 768px) {
+  .btn {
+    padding: 8px 12px;
+    font-size: 14px;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    padding: 6px 10px;
+    font-size: 13px;
+    width: 100%;
+    justify-content: center;
+  }
+}
 .btn.primary {
   background: linear-gradient(135deg, var(--brand), var(--brand-2));
   color: #ffffff;
@@ -147,12 +240,55 @@ nav a:hover {
     grid-template-columns: 1.15fr 0.85fr;
   }
 }
+
+/* Mobile Grid Layout */
+@media (max-width: 899px) {
+  .grid.two {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    gap: 16px;
+  }
+
+  .grid.two {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    gap: 12px;
+  }
+
+  .grid.two {
+    gap: 12px;
+  }
+}
 .card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 24px;
   box-shadow: var(--shadow);
+}
+
+/* Mobile Cards */
+@media (max-width: 768px) {
+  .card {
+    padding: 20px;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 16px;
+    border-radius: 10px;
+  }
 }
 h1 {
   font-size: clamp(30px, 4.2vw, 52px);
@@ -167,6 +303,47 @@ h2 {
 h3 {
   font-size: 18px;
   margin: 0 0 6px;
+}
+
+/* Mobile Typography */
+@media (max-width: 768px) {
+  h1 {
+    font-size: clamp(24px, 6vw, 40px);
+    line-height: 1.1;
+  }
+
+  h2 {
+    font-size: clamp(20px, 5vw, 26px);
+    margin: 0 0 10px;
+  }
+
+  h3 {
+    font-size: 16px;
+    margin: 0 0 4px;
+  }
+
+  p.lead {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: clamp(20px, 8vw, 32px);
+  }
+
+  h2 {
+    font-size: clamp(18px, 6vw, 22px);
+  }
+
+  h3 {
+    font-size: 15px;
+  }
+
+  p.lead {
+    font-size: 14px;
+  }
 }
 p.lead {
   color: var(--muted);
@@ -209,6 +386,31 @@ p.lead {
 .hero {
   padding: 64px 0 32px;
 }
+
+/* Mobile Hero */
+@media (max-width: 768px) {
+  .hero {
+    padding: 32px 0 24px;
+  }
+
+  .hero .grid {
+    gap: 24px;
+  }
+
+  .hero .btn {
+    margin-bottom: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 24px 0 16px;
+  }
+
+  .hero .grid {
+    gap: 16px;
+  }
+}
 .portrait {
   aspect-ratio: 1 / 1;
   border-radius: 14px;
@@ -237,6 +439,32 @@ p.lead {
   gap: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
+}
+
+/* Mobile Projects */
+@media (max-width: 768px) {
+  .projects .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .projects .project {
+    gap: 8px;
+  }
+
+  .projects .cover {
+    aspect-ratio: 16/10;
+  }
+}
+
+@media (max-width: 480px) {
+  .projects .grid {
+    gap: 12px;
+  }
+
+  .projects .cover {
+    aspect-ratio: 16/12;
+  }
 }
 
 .projects .project:hover {
@@ -285,6 +513,38 @@ p.lead {
   color: var(--brand);
 }
 
+/* Mobile Project Animations */
+@media (max-width: 768px) {
+  /* Reduce animation sizes for mobile */
+  .projects .cover .robot-speaker-animation,
+  .projects .cover .ios-calculator-animation,
+  .projects .cover .cookie-animation {
+    transform: scale(0.8);
+  }
+
+  /* Adjust project title animations for mobile */
+  .project h3 {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .projects .cover .robot-speaker-animation,
+  .projects .cover .ios-calculator-animation,
+  .projects .cover .cookie-animation {
+    transform: scale(0.7);
+  }
+
+  .project h3 {
+    font-size: 15px;
+    gap: 6px;
+  }
+}
+
 /* Lists */
 ul.plain {
   padding-left: 18px;
@@ -306,6 +566,48 @@ footer {
   font-size: 14px;
 }
 
+/* Mobile Footer */
+@media (max-width: 768px) {
+  footer {
+    margin-top: 32px;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px 0;
+    text-align: center;
+  }
+}
+
+/* Mobile Tags */
+@media (max-width: 768px) {
+  .tag {
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+
+  .skills {
+    gap: 8px;
+  }
+
+  .projects .meta {
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .tag {
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+
+  .skills {
+    gap: 6px;
+  }
+}
+
 /* Motion (minimal, contemporary) */
 @media (prefers-reduced-motion: no-preference) {
   .reveal {
@@ -324,6 +626,40 @@ footer {
   .project:hover .cover {
     transform: translateY(-2px);
     transition: transform 0.25s ease;
+  }
+}
+
+/* Touch-friendly interactions for mobile */
+@media (hover: none) and (pointer: coarse) {
+  .btn:hover {
+    transform: none;
+  }
+
+  .project:hover .cover {
+    transform: none;
+  }
+
+  .btn:active {
+    transform: scale(0.98);
+  }
+
+  .project:active .cover {
+    transform: scale(0.98);
+  }
+}
+
+/* Improved touch targets for mobile */
+@media (max-width: 768px) {
+  .btn,
+  nav a,
+  .project {
+    min-height: 44px; /* iOS recommended touch target */
+    display: flex;
+    align-items: center;
+  }
+
+  .project {
+    min-height: auto; /* Override for project cards */
   }
 }
 
@@ -386,6 +722,55 @@ footer {
   max-width: 320px;
   margin: 0 auto;
   cursor: pointer;
+}
+
+/* Mobile Profile Card */
+@media (max-width: 768px) {
+  .profile-card {
+    max-width: 280px;
+  }
+
+  .profile-card-inner {
+    padding: 24px 20px;
+  }
+
+  .profile-avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+  }
+
+  .profile-name {
+    font-size: 20px;
+  }
+
+  .profile-title {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-card {
+    max-width: 260px;
+  }
+
+  .profile-card-inner {
+    padding: 20px 16px;
+  }
+
+  .profile-avatar {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 16px;
+  }
+
+  .profile-name {
+    font-size: 18px;
+  }
+
+  .profile-title {
+    font-size: 13px;
+  }
 }
 
 .profile-card-inner {
