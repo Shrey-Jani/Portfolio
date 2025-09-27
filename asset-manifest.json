@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/TimeGitJenkins/static/css/main.4890a7c3.css",
+    "main.js": "/TimeGitJenkins/static/js/main.4a7e3fd7.js",
+    "index.html": "/TimeGitJenkins/index.html",
+    "main.4890a7c3.css.map": "/TimeGitJenkins/static/css/main.4890a7c3.css.map",
+    "main.4a7e3fd7.js.map": "/TimeGitJenkins/static/js/main.4a7e3fd7.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4890a7c3.css",
+    "static/js/main.4a7e3fd7.js"
+  ]
+}
