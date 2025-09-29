@@ -41,10 +41,18 @@ const Projects: React.FC = () => {
               onMouseEnter={() => setHoveredProject(project.id)}
               onMouseLeave={() => setHoveredProject(null)}
             >
-              <div className="cover" aria-hidden="true">
+              <div
+                className="cover"
+                aria-hidden="true"
+                style={{
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
                 {/* Show Robot-Speaker animation for the Robo-Speaker project */}
                 {project.title === "Robo-Speaker" && (
                   <div
+                    className="project-animation"
                     style={{
                       position: "absolute",
                       top: "50%",
@@ -62,6 +70,7 @@ const Projects: React.FC = () => {
                 {/* Show iOS Calculator animation for the iOS Calculator project */}
                 {project.title === "iOS Calculator" && (
                   <div
+                    className="project-animation"
                     style={{
                       position: "absolute",
                       top: "50%",
@@ -72,13 +81,14 @@ const Projects: React.FC = () => {
                   >
                     <IOSCalculatorAnimation
                       isActive={hoveredProject === project.id}
-                      size={75}
+                      size={120}
                     />
                   </div>
                 )}
                 {/* Show Cookie animation for the Capstone Project */}
                 {project.title === "Capstone Project" && (
                   <div
+                    className="project-animation"
                     style={{
                       position: "absolute",
                       top: "50%",
@@ -89,12 +99,12 @@ const Projects: React.FC = () => {
                   >
                     <CookieAnimation
                       isActive={hoveredProject === project.id}
-                      size={110}
+                      size={250}
                     />
                   </div>
                 )}
               </div>
-              <div>
+              <div className="project-content">
                 <h3
                   style={{ display: "flex", alignItems: "center", gap: "12px" }}
                 >
@@ -110,14 +120,14 @@ const Projects: React.FC = () => {
                   {project.title === "iOS Calculator" && (
                     <IOSCalculatorAnimation
                       isActive={hoveredProject === project.id}
-                      size={20}
+                      size={24}
                     />
                   )}
                   {/* Small cookie icon next to Capstone Project title */}
                   {project.title === "Capstone Project" && (
                     <CookieAnimation
                       isActive={hoveredProject === project.id}
-                      size={22}
+                      size={32}
                     />
                   )}
                 </h3>

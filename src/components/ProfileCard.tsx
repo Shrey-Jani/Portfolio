@@ -64,6 +64,30 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
     setTilt({ x: 0, y: 0 });
   };
 
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!enableTilt || !enableMobileTilt || !isMobile) return;
+
+    if (cardRef.current && e.touches.length === 1) {
+      const rect = cardRef.current.getBoundingClientRect();
+      const touch = e.touches[0];
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const tiltX = ((y - centerY) / centerY) * -5; // Reduced tilt for mobile
+      const tiltY = ((x - centerX) / centerX) * 5;
+
+      setTilt({ x: tiltX, y: tiltY });
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (!enableTilt || !enableMobileTilt || !isMobile) return;
+    setTilt({ x: 0, y: 0 });
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Online":
@@ -83,10 +107,13 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
       className="profile-card"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
       style={{
         transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
         transition: "transform 0.1s ease-out",
         transformStyle: "preserve-3d",
+        touchAction: "manipulation",
       }}
     >
       <div className="profile-card-inner">
