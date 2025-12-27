@@ -1,4 +1,4 @@
-import { Project, Experience, ContactInfo } from "../types";
+import { Project, Experience, ContactInfo, Certificate } from "../types";
 
 export const projects: Project[] = [
   {
@@ -59,6 +59,22 @@ export const experiences: Experience[] = [
       "Integrated UX features (audio, animations) while maintaining optimal frontend performance.",
       "Managed domain and deployed the application with AWS-based hosting solutions.",
     ],
+  },
+];
+
+export const certificates: Certificate[] = [
+  {
+    id: 1,
+    title: "AWS Certified Cloud Developer",
+    issuer: "Amazon Web Services",
+    issued: "December 2025",
+    description: "",
+    credentialUrl:
+      "https://www.credly.com/badges/10661791-67f0-48f1-a1aa-10dcfb805c93/print",
+    image: {
+      src: "/images/aws.png",
+      alt: "AWS Certified Cloud Developer certificate",
+    },
   },
 ];
 

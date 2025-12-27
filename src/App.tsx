@@ -4,6 +4,7 @@ import Hero from "./components/Hero";
 import Technology from "./components/Technology";
 import Projects from "./components/Projects";
 import Experience from "./components/Experience";
+import Certificates from "./components/Certificates";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
@@ -73,6 +74,7 @@ const App: React.FC = () => {
         <br />
         <Projects />
         <Experience />
+        <Certificates />
 
         <Contact />
       </main>

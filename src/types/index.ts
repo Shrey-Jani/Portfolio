@@ -15,6 +15,19 @@ export interface Experience {
   responsibilities: string[];
 }
 
+export interface Certificate {
+  id: number;
+  title: string;
+  issuer: string;
+  issued: string;
+  description: string;
+  credentialUrl?: string;
+  image?: {
+    src: string;
+    alt: string;
+  };
+}
+
 export interface SocialLink {
   name: string;
   url: string;
