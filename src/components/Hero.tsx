@@ -17,14 +17,23 @@ const Hero: React.FC = () => {
 
   return (
     <section className="hero container" id="top">
-      <div className="grid two">
+      <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+        <ProfileCard
+          name="Shrey Jani"
+          title="Software Developer | Cloud Developer | Data Analyst | AI Freshman"
+          avatarUrl={`${process.env.PUBLIC_URL}/images/pic_web.jpg`}
+          showUserInfo={true}
+          enableTilt={true}
+          enableMobileTilt={false}
+        />
+
         <SpotlightCard
           className="reveal"
           spotlightColor="rgba(79, 140, 255, 0.3)"
         >
           <h1>
             <BlurText
-              text="Shrey Jani"
+              text="Hello !"
               delay={150}
               animateBy="words"
               direction="top"
@@ -33,20 +42,16 @@ const Hero: React.FC = () => {
             />
           </h1>
           <p className="lead">
-            I am an Information Systems Engineering student at Sheridan College
-            with experience in full‑stack development, cloud deployment, and
-            building scalable applications using modern technologies such as
-            React, Angular, Tailwind CSS, Node.js, Spring Boot, and AWS. My
-            background includes developing projects like a Patient Record
-            Application and a Python‑based Robo‑Speaker, as well as tutoring web
-            development and contributing to student leadership roles where I
-            strengthened my communication, teamwork, and governance skills. I am
-            passionate about creating impactful, user‑focused solutions that
-            blend technical problem‑solving with collaboration and continuous
-            learning.
+            Information Systems Engineering graduate from Sheridan College,
+            specializing in building scalable, full-stack applications. With a
+            technical toolkit including React, Node.js, Spring Boot, and AWS, I
+            bridge the gap between complex backend logic and intuitive user
+            experiences. I am a collaborative problem-solver committed to
+            continuous learning and building impactful, cloud-native solutions.
           </p>
 
           <div
+            className="hero-actions"
             style={{
               display: "flex",
               gap: "10px",
@@ -77,26 +82,6 @@ const Hero: React.FC = () => {
               LinkedIn
             </a>
           </div>
-        </SpotlightCard>
-
-        <SpotlightCard
-          className="reveal profile-spotlight-card"
-          spotlightColor="rgba(255, 107, 157, 0.3)"
-        >
-          <ProfileCard
-            name="Shrey Jani"
-            title="Software Engineer"
-            handle="shrey1807"
-            status="Online"
-            contactText="Contact Me"
-            avatarUrl={`${process.env.PUBLIC_URL}/images/pic_web.jpg`}
-            showUserInfo={true}
-            enableTilt={true}
-            enableMobileTilt={false}
-            onContactClick={() => {
-              window.location.href = "mailto:janishre@sheridancollege.ca";
-            }}
-          />
         </SpotlightCard>
       </div>
     </section>

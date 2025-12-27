@@ -230,6 +230,19 @@ nav a:hover {
   transition: all 0.3s ease;
 }
 
+.hero-actions .btn {
+  padding: 8px 12px;
+  width: auto;
+  min-width: 0;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 480px) {
+  .hero-actions .btn {
+    width: auto;
+  }
+}
+
 /* Layout */
 .grid {
   display: grid;
