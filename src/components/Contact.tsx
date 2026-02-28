@@ -11,7 +11,10 @@ const Contact: React.FC = () => {
       >
         <h2>Contact</h2>
         <p>Open to New Grads Job Roles. Let's connect.</p>
-        <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+        <div
+          className="contact-actions"
+          style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}
+        >
           <a className="btn primary" href={`mailto:${contactInfo.email}`}>
             Email
           </a>

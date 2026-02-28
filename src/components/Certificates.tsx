@@ -142,7 +142,7 @@ const Certificates: React.FC = () => {
                 </div>
                 {certificate.credentialUrl && (
                   <a
-                    className="tag"
+                    className="tag certificate-link"
                     href={certificate.credentialUrl}
                     target="_blank"
                     rel="noreferrer"

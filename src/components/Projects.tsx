@@ -138,25 +138,52 @@ const Projects: React.FC = () => {
                       {tech}
                     </span>
                   ))}
-                  {project.codeUrl && (
-                    <a
-                      className="tag code-btn"
-                      href={project.codeUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Code
-                    </a>
-                  )}
-                  {project.liveUrl && (
-                    <a
-                      className="tag"
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Live Demo
-                    </a>
+                  {project.title === "Capstone Project" ? (
+                    <>
+                      {project.liveUrl && (
+                        <a
+                          className="tag live-btn"
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Live Demo
+                        </a>
+                      )}
+                      {project.codeUrl && (
+                        <a
+                          className="tag code-btn"
+                          href={project.codeUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Code
+                        </a>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      {project.codeUrl && (
+                        <a
+                          className="tag code-btn"
+                          href={project.codeUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Code
+                        </a>
+                      )}
+                      {project.liveUrl && (
+                        <a
+                          className="tag live-btn"
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Live Demo
+                        </a>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
