@@ -3,7 +3,7 @@
 ## Setup Complete! ✅
 
 Your portfolio is now configured for GitHub Pages deployment with:
-- **Homepage URL**: https://shrey-jani.github.io/TimeGitJenkins
+- **Homepage URL**: https://shrey-jani.github.io/Portfolio
 - **gh-pages package**: Installed and configured
 - **Deploy scripts**: Added to package.json
 
@@ -25,10 +25,10 @@ This will:
 - Build your React app (`npm run build`)
 - Create optimized production files
 - Push the build files to a `gh-pages` branch
-- Make your portfolio live at: **https://shrey-jani.github.io/TimeGitJenkins**
+- Make your portfolio live at: **https://shrey-jani.github.io/Portfolio**
 
 ### 3. **Enable GitHub Pages (One-time setup)**
-1. Go to your GitHub repository: https://github.com/Shrey-Jani/TimeGitJenkins
+1. Go to your GitHub repository: https://github.com/Shrey-Jani/Portfolio
 2. Click **Settings** tab
 3. Scroll to **Pages** section
 4. Under **Source**, select **Deploy from a branch**
@@ -51,17 +51,17 @@ Your deployed portfolio will include:
 
 ## 🔄 Future Updates
 
-To update your live portfolio:
+A GitHub Actions workflow (`.github/workflows/deploy.yml`) automatically rebuilds and deploys the portfolio whenever source files are pushed to the `main` branch. Simply push your changes:
 ```bash
-# Make your changes, then:
 git add .
 git commit -m "Update portfolio"
-git push origin feature/work-section
-npm run deploy
+git push origin main
 ```
 
+The workflow will build the React app and commit the updated build output automatically.
+
 ## 🌐 Live URL
-Once deployed: **https://shrey-jani.github.io/TimeGitJenkins**
+Once deployed: **https://shrey-jani.github.io/Portfolio**
 
 ## 📊 Performance Features
 - **Optimized animations** for smooth scrolling

@@ -1,0 +1,55 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'package.json'
+      - 'tsconfig.json'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: CI=false npm run build
+
+      - name: Copy build output to root
+        run: |
+          rm -rf static/
+          rm -f index.html 404.html asset-manifest.json
+          cp build/index.html .
+          cp build/404.html .
+          cp build/asset-manifest.json .
+          cp -r build/static/ .
+
+      - name: Commit and push updated build
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html 404.html asset-manifest.json static/
+          if git diff --cached --quiet; then
+            echo "No build changes to commit"
+          else
+            git commit -m "chore: update build output"
+            git push
+          fi
