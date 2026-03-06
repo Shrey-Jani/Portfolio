@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 import LiquidEther from "./components/LiquidEther";
 import Lightning from "./components/Lightning";
 import Silk from "./components/Silk";
+import AIAssistant from "./components/AIAssistant";
 import { useTheme } from "./hooks/useTheme";
 import { useScrollReveal } from "./hooks/useScrollReveal";
 import "./styles/index.css";
@@ -80,6 +81,7 @@ const App: React.FC = () => {
       </main>
 
       <Footer />
+      <AIAssistant />
     </div>
   );
 };
