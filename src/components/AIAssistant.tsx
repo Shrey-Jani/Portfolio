@@ -112,3 +112,220 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
       return state;
   }
 }
+
+const ChatIcons = () => (
+  <svg viewBox="0 0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+  </svg>
+);
+
+const CloseIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    aria-hidden="true"
+  >
+    <path d="M18 6L6 18M6 6l12 12" />
+  </svg>
+);
+
+const SendIcon = () => (
+  <svg
+    viewBox="0 0  24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    aria-hidden="true"
+  >
+    <line x1="22" y1="2" x2="11" y2="13" />
+    <polygon
+      points="22 2 15 22 11 13 2 9 22 2"
+      fill="currentColor"
+      stroke="none"
+    />
+  </svg>
+);
+
+const AvatarIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M12 2a5 5 0 1 1 - 10A5 5 0 0 1 12 2zm0 13c5.33 0 8 2.67 8 4v1H4v-1c0-1.33 2.67-4 8-4z" />
+  </svg>
+);
+
+/**Memorized message bubble - only re-renders when content changes*/
+const MessageBubble = React.memo(({ msg }: { msg: Message }) => (
+  <div className={`ai-msg ai-msg--${msg.role}`}>
+    <span className="ai-msg-role">
+      {msg.role === "user" ? "You" : "Shrey's Assistant"}
+    </span>
+    <div className="ai-msg-bubble">{msg.content}</div>
+  </div>
+));
+MessageBubble.displayName = "MessageBubble";
+
+const AIAssistant: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [showDot, setShowDot] = useState(true);
+  const [input, setInput] = useState("");
+
+  const [chatState, dispatch] = useReducer(chatReducer, {
+    messages: [INITIAL_MESSAGE],
+    status: "idle",
+    error: null,
+  });
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
+  // Keep a ref to latest messages to avoid stale closures in sendMessage
+  const messagesRef = useRef(chatState.messages);
+  useEffect(() => {
+    messagesRef.current = chatState.messages;
+  }, [chatState.messages]);
+
+  // ── Scroll: use RAF to throttle during streaming ──────────────────────────
+  const rafRef = useRef<number | null>(null);
+  useEffect(() => {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    });
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [chatState.messages, chatState.status]);
+
+  // Hide notifications dot on first open
+  useEffect(() => {
+    if (isOpen) setShowDot(false);
+  }, [isOpen]);
+
+  // Auto-resize textarea
+  const handleInput = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setInput(e.target.value);
+      const ta = e.target;
+      ta.style.height = "auto";
+      ta.style.height = `${Math.min(ta.scrollHeight, 100)}px`;
+    },
+    [],
+  );
+
+  // Send Message
+  const sendMessage = useCallback(async () => {
+    const trimmed = input.trim();
+    if (
+      !trimmed ||
+      chatState.status === "loading" ||
+      chatState.status === "streaming"
+    )
+      return;
+
+    const apikey = process.env.REACT_APP_OPENAPI_KEY;
+    if (!apikey) {
+      dispatch({
+        type: "SET_ERROR",
+        payload: "API key not configured. set API Key in env file",
+      });
+      return;
+    }
+
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+    }
+
+    const userMsg: Message = { id: uid(), role: "user", content: trimmed };
+    dispatch({ type: "ADD_USER_MSG", payload: userMsg });
+    setInput("");
+
+    //Cnacel any in-flight request before starting a new one
+    abortRef.current?.abort();
+    abortRef.current = new AbortController();
+
+    const historyForAPI = [...messagesRef.current, userMsg].map((m) => ({
+      role: m.role,
+      content: m.content,
+    }));
+
+    try {
+      const response = await fetch("http://", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apikey}`,
+        },
+        body: JSON.stringify({
+          model: "gpt-40-mini",
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            ...historyForAPI,
+          ],
+          max_tokens: 300,
+          temperature: 0.7,
+          stream: true,
+        }),
+        signal: abortRef.current.signal,
+      });
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(
+          (errData as any)?.error?.message || `API error ${response.status}`,
+        );
+      }
+      //Register the assistant placeholder and switch to streaming
+      const assistantMsgId = uid();
+      dispatch({
+        type: "ADD_ASSISTANT_MSG",
+        payload: { id: assistantMsgId, role: "assistant", content: "" },
+      });
+
+      const reader = response.body!.getReader();
+      const decoder = new TextDecoder();
+
+      outer: while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        const lines = decoder.decode(value, { stream: true }).split("\n");
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          const data = line.slice(6).trim();
+          if (data === "[DONE]") break outer;
+          try {
+            const delta = JSON.parse(data)?.choices?.[0]?.delta?.content;
+            if (delta)
+              dispatch({
+                type: "APPEND_DELTA",
+                payload: { id: assistantMsgId, delta },
+              });
+          } catch {}
+        }
+      }
+      dispatch({ type: "SET_STATUS", payload: "idle" });
+    } catch (err: any) {
+      if (err.name === "AbortError") return;
+      dispatch({
+        type: "SET_ERROR",
+        payload: err.message || "Something went wrong. Please try again.",
+      });
+    }
+  }, [input, chatState.status]);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    },
+    [sendMessage],
+  );
+
+  const isDisabled =
+    chatState.status === "loading" || chatState.status === "streaming";
+
+  return();
+};
