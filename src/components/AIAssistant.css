@@ -2,35 +2,52 @@
    AI Assistant — Floating Chat
    ============================ */
 
-/* Toggle Button */
+/* Wrapper sits inline in header */
+.ai-assistant-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Toggle Button — inline in header, no fixed positioning */
 .ai-fab {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  z-index: 1000;
-  width: 56px;
-  height: 56px;
+  position: relative;
+  z-index: 9999;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  background: transparent;
   border: none;
+  box-shadow: 0 0 0 3px var(--brand), 0 4px 16px rgba(106, 13, 173, 0.4);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 20px rgba(106, 13, 173, 0.5);
+  padding: 0;
+  overflow: hidden;
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease;
   outline: none;
+  flex-shrink: 0;
 }
 .ai-fab:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 28px rgba(106, 13, 173, 0.7);
+  transform: scale(1.08);
+  box-shadow: 0 0 0 3px var(--brand-2), 0 6px 28px rgba(106, 13, 173, 0.7);
 }
+.ai-fab img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 50%;
+}
+/* Fallback svg (shown when panel is open) */
 .ai-fab svg {
   width: 26px;
   height: 26px;
   fill: #fff;
+  flex-shrink: 0;
 }
 
 /* Notification dot */
@@ -57,12 +74,12 @@
   }
 }
 
-/* Panel */
+/* Panel — fixed to viewport, drops below header */
 .ai-panel {
   position: fixed;
-  bottom: 96px;
+  top: 70px;
   right: 28px;
-  z-index: 999;
+  z-index: 9998;
   width: 360px;
   max-height: 560px;
   display: flex;
@@ -74,7 +91,7 @@
   overflow: hidden;
 
   /* Animation */
-  transform-origin: bottom right;
+  transform-origin: top right;
   animation: panel-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 @keyframes panel-in {
@@ -338,14 +355,12 @@
 @media (max-width: 480px) {
   .ai-panel {
     right: 12px;
-    bottom: 80px;
+    top: 64px;
     width: calc(100vw - 24px);
     max-height: 70vh;
   }
   .ai-fab {
-    bottom: 16px;
-    right: 16px;
-    width: 50px;
-    height: 50px;
+    width: 38px;
+    height: 38px;
   }
 }

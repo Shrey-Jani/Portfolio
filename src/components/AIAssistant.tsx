@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useReducer,
 } from "react";
-import "./AIAssisstant.css";
+import "./AIAssistant.css";
 
 interface Message {
   id: string;
@@ -113,7 +113,7 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
   }
 }
 
-const ChatIcons = () => (
+const ChatIcon = () => (
   <svg viewBox="0 0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
   </svg>
@@ -154,6 +154,17 @@ const AvatarIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="M12 2a5 5 0 1 1 - 10A5 5 0 0 1 12 2zm0 13c5.33 0 8 2.67 8 4v1H4v-1c0-1.33 2.67-4 8-4z" />
   </svg>
+);
+
+const TypingIndicator = () => (
+  <div className="ai-msg ai-msg--assistant">
+    <span className="ai-msg-role">Shrey's Assistant</span>
+    <div className="ai-msg-bubble ai-typing">
+      <span />
+      <span />
+      <span />
+    </div>
+  </div>
 );
 
 /**Memorized message bubble - only re-renders when content changes*/
@@ -246,37 +257,41 @@ const AIAssistant: React.FC = () => {
     abortRef.current?.abort();
     abortRef.current = new AbortController();
 
-    const historyForAPI = [...messagesRef.current, userMsg].map((m) => ({
-      role: m.role,
-      content: m.content,
-    }));
+    // Build messages in OpenAI format (Groq is OpenAI-compatible)
+    const groqMessages = [
+      { role: "system", content: SYSTEM_PROMPT },
+      ...messagesRef.current.map((m) => ({ role: m.role, content: m.content })),
+      { role: userMsg.role, content: userMsg.content },
+    ];
 
     try {
-      const response = await fetch("http://", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apikey}`,
-        },
-        body: JSON.stringify({
-          model: "gpt-40-mini",
-          messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            ...historyForAPI,
-          ],
-          max_tokens: 300,
-          temperature: 0.7,
-          stream: true,
-        }),
-        signal: abortRef.current.signal,
-      });
+      const response = await fetch(
+        "https://api.groq.com/openai/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${apikey}`,
+          },
+          body: JSON.stringify({
+            model: "llama-3.3-70b-versatile",
+            messages: groqMessages,
+            max_tokens: 300,
+            temperature: 0.7,
+            stream: true,
+          }),
+          signal: abortRef.current.signal,
+        }
+      );
+
       if (!response.ok) {
         const errData = await response.json().catch(() => ({}));
         throw new Error(
-          (errData as any)?.error?.message || `API error ${response.status}`,
+          (errData as any)?.error?.message || `API error ${response.status}`
         );
       }
-      //Register the assistant placeholder and switch to streaming
+
+      // Register the assistant placeholder and switch to streaming
       const assistantMsgId = uid();
       dispatch({
         type: "ADD_ASSISTANT_MSG",
@@ -296,6 +311,7 @@ const AIAssistant: React.FC = () => {
           const data = line.slice(6).trim();
           if (data === "[DONE]") break outer;
           try {
+            // OpenAI-compatible SSE delta
             const delta = JSON.parse(data)?.choices?.[0]?.delta?.content;
             if (delta)
               dispatch({
@@ -327,5 +343,99 @@ const AIAssistant: React.FC = () => {
   const isDisabled =
     chatState.status === "loading" || chatState.status === "streaming";
 
-  return();
+  return (
+    <div className="ai-assistant-wrapper">
+      {/* Avatar button */}
+      <button
+        className="ai-fab"
+        onClick={() => setIsOpen((o) => !o)}
+        aria-label={isOpen ? "Close AI assistant" : "Open AI assistant"}
+        aria-expanded={isOpen}
+        title="Chat with Shrey's AI"
+      >
+        {isOpen ? <CloseIcon /> : (
+          <img
+            src={`${process.env.PUBLIC_URL}/ai-avatar.png`}
+            alt="AI Assistant"
+          />
+        )}
+        {showDot && !isOpen && <span className="ai-fab-dot" aria-hidden="true" />}
+      </button>
+
+      {/* Chat panel */}
+      {isOpen && (
+        <div
+          className="ai-panel"
+          role="dialog"
+          aria-modal="true"
+          aria-label="AI Assistant chat"
+        >
+          {/* Header */}
+          <div className="ai-panel-header">
+            <div className="ai-panel-header-avatar" aria-hidden="true">
+              <img
+                src={`${process.env.PUBLIC_URL}/ai-avatar.png`}
+                alt=""
+                style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "50%" }}
+              />
+            </div>
+            <div className="ai-panel-header-info">
+              <strong>Shrey's Assistant</strong>
+              <span>Powered by LLaMA 3.3 (Groq)</span>
+            </div>
+            <button
+              className="ai-panel-close"
+              onClick={() => setIsOpen(false)}
+              aria-label="Close chat"
+            >
+              <CloseIcon />
+            </button>
+          </div>
+
+          {/* Messages */}
+          <div className="ai-messages" role="log" aria-live="polite" aria-label="Chat messages">
+            {chatState.messages.map((msg) => (
+              <MessageBubble key={msg.id} msg={msg} />
+            ))}
+            {chatState.status === "loading" && <TypingIndicator />}
+            {chatState.status === "error" && chatState.error && (
+              <div className="ai-error" role="alert">{chatState.error}</div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Input area */}
+          <div className="ai-input-area">
+            <textarea
+              ref={textareaRef}
+              className="ai-input"
+              rows={1}
+              placeholder="Ask me about Shrey…"
+              value={input}
+              onChange={handleInput}
+              onKeyDown={handleKeyDown}
+              disabled={isDisabled}
+              aria-label="Message input"
+              aria-multiline="true"
+            />
+            <button
+              className="ai-send"
+              onClick={sendMessage}
+              disabled={!input.trim() || isDisabled}
+              aria-label="Send message"
+            >
+              <SendIcon />
+            </button>
+          </div>
+
+          <p className="ai-panel-footer">
+            Ask about projects, skills, experience &amp; more
+          </p>
+        </div>
+      )}
+    </div>
+  );
+
 };
+
+export default AIAssistant;
