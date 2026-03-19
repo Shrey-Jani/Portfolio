@@ -77,6 +77,18 @@ export const certificates: Certificate[] = [
       alt: "AWS Certified Cloud Developer certificate",
     },
   },
+  {
+    id: 2,
+    title: "Capstone Competition Finalist",
+    issuer: "Sheridan College",
+    issued: "2025",
+    description:
+      "Finalist — Team Sugar Cubed Creations at the Information Systems Engineering Capstone Competition 2025, hosted by Sheridan College Institute of Technology and Advanced Learning.",
+    image: {
+      src: "/images/sheridan.jpg",
+      alt: "Sheridan Capstone Competition Finalist certificate",
+    },
+  },
 ];
 
 export const technologies = [
