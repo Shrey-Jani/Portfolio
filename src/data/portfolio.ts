@@ -31,7 +31,7 @@ export const projects: Project[] = [
 export const experiences: Experience[] = [
   {
     id: 1,
-    title: "Full‑Stack Developer",
+    title: "Full‑Stack Developer Volunteer",
     company: "Hackville",
     period: "October 2025 - Present",
     responsibilities: [

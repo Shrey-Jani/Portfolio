@@ -18,7 +18,9 @@
   border-radius: 50%;
   background: transparent;
   border: none;
-  box-shadow: 0 0 0 3px var(--brand), 0 4px 16px rgba(106, 13, 173, 0.4);
+  box-shadow:
+    0 0 0 3px var(--brand),
+    0 4px 16px rgba(106, 13, 173, 0.4);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -33,7 +35,9 @@
 }
 .ai-fab:hover {
   transform: scale(1.08);
-  box-shadow: 0 0 0 3px var(--brand-2), 0 6px 28px rgba(106, 13, 173, 0.7);
+  box-shadow:
+    0 0 0 3px var(--brand-2),
+    0 6px 28px rgba(106, 13, 173, 0.7);
 }
 .ai-fab img {
   width: 100%;
@@ -190,11 +194,11 @@
   max-width: 85%;
   gap: 3px;
 }
-.ai-msg.user {
+.ai-msg--user {
   align-self: flex-end;
   align-items: flex-end;
 }
-.ai-msg.assistant {
+.ai-msg--assistant {
   align-self: flex-start;
   align-items: flex-start;
 }
@@ -214,13 +218,14 @@
   line-height: 1.55;
   white-space: pre-wrap;
   word-break: break-word;
+  position: relative;
 }
-.ai-msg.user .ai-msg-bubble {
+.ai-msg--user .ai-msg-bubble {
   background: linear-gradient(135deg, var(--brand), var(--brand-2));
   color: #fff;
   border-bottom-right-radius: 4px;
 }
-.ai-msg.assistant .ai-msg-bubble {
+.ai-msg--assistant .ai-msg-bubble {
   background: var(--card);
   color: var(--text);
   border: 1px solid var(--border);
@@ -351,6 +356,56 @@
   background: var(--surface);
 }
 
+/* Audio button */
+.ai-audio-btn {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(106, 13, 173, 0.15);
+  border: 1px solid rgba(106, 13, 173, 0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: var(--brand);
+  transition:
+    background-color 0.15s,
+    border-color 0.15s,
+    transform 0.15s;
+  outline: none;
+  opacity: 0;
+}
+.ai-msg--assistant .ai-msg-bubble:hover .ai-audio-btn {
+  opacity: 1;
+}
+.ai-audio-btn:hover {
+  background: rgba(106, 13, 173, 0.25);
+  border-color: rgba(106, 13, 173, 0.5);
+}
+.ai-audio-btn:active {
+  transform: scale(0.95);
+}
+.ai-audio-btn svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+/* Playing state */
+.ai-msg-bubble--playing {
+  background: rgba(106, 13, 173, 0.08);
+  border-color: rgba(106, 13, 173, 0.3);
+}
+.ai-msg-bubble--playing .ai-audio-btn {
+  opacity: 1;
+  background: rgba(106, 13, 173, 0.2);
+  border-color: rgba(106, 13, 173, 0.5);
+}
+
 /* Mobile */
 @media (max-width: 480px) {
   .ai-panel {
@@ -362,5 +417,8 @@
   .ai-fab {
     width: 38px;
     height: 38px;
+  }
+  .ai-audio-btn {
+    opacity: 1;
   }
 }

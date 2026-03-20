@@ -11,6 +11,7 @@ interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
+  isPlaying?: boolean;
 }
 
 type ChatStatus = "idle" | "loading" | "streaming" | "error";
@@ -26,7 +27,8 @@ type ChatAction =
   | { type: "ADD_ASSISTANT_MSG"; payload: Message }
   | { type: "APPEND_DELTA"; payload: { id: string; delta: string } }
   | { type: "SET_STATUS"; payload: ChatStatus }
-  | { type: "SET_ERROR"; payload: string };
+  | { type: "SET_ERROR"; payload: string }
+  | { type: "SET_PLAYING"; payload: { id: string; isPlaying: boolean } };
 
 const SYSTEM_PROMPT = `You are Shrey Jani's personal AI assistant embedded in his portfolio website.
 Be concise, friendly, and professional. Only answer questions related to Shrey's skills, projects, experience, education, and career goals. Politely decline unrelated topics.
@@ -108,6 +110,15 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
       return { ...state, status: action.payload };
     case "SET_ERROR":
       return { ...state, status: "error", error: action.payload };
+    case "SET_PLAYING":
+      return {
+        ...state,
+        messages: state.messages.map((m) =>
+          m.id === action.payload.id
+            ? { ...m, isPlaying: action.payload.isPlaying }
+            : { ...m, isPlaying: false },
+        ),
+      };
     default:
       return state;
   }
@@ -150,6 +161,25 @@ const SendIcon = () => (
   </svg>
 );
 
+const PlayIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <polygon points="5 3 19 12 5 21 5 3" />
+  </svg>
+);
+
+const PauseIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <rect x="6" y="4" width="4" height="16" />
+    <rect x="14" y="4" width="4" height="16" />
+  </svg>
+);
+
+const StopIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <rect x="4" y="4" width="16" height="16" />
+  </svg>
+);
+
 const AvatarIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="M12 2a5 5 0 1 1 - 10A5 5 0 0 1 12 2zm0 13c5.33 0 8 2.67 8 4v1H4v-1c0-1.33 2.67-4 8-4z" />
@@ -168,14 +198,38 @@ const TypingIndicator = () => (
 );
 
 /**Memorized message bubble - only re-renders when content changes*/
-const MessageBubble = React.memo(({ msg }: { msg: Message }) => (
-  <div className={`ai-msg ai-msg--${msg.role}`}>
-    <span className="ai-msg-role">
-      {msg.role === "user" ? "You" : "Shrey's Assistant"}
-    </span>
-    <div className="ai-msg-bubble">{msg.content}</div>
-  </div>
-));
+const MessageBubble = React.memo(
+  ({
+    msg,
+    onPlayAudio,
+  }: {
+    msg: Message;
+    onPlayAudio: (id: string) => void;
+  }) => (
+    <div className={`ai-msg ai-msg--${msg.role}`}>
+      <span className="ai-msg-role">
+        {msg.role === "user" ? "You" : "Shrey's Assistant"}
+      </span>
+      <div
+        className={`ai-msg-bubble ${msg.isPlaying ? "ai-msg-bubble--playing" : ""}`}
+      >
+        {msg.content}
+        {msg.role === "assistant" && (
+          <button
+            className="ai-audio-btn"
+            onClick={() => onPlayAudio(msg.id)}
+            title={msg.isPlaying ? "Stop audio" : "Play audio response"}
+            aria-label={
+              msg.isPlaying ? "Stop audio response" : "Play audio response"
+            }
+          >
+            {msg.isPlaying ? <StopIcon /> : <PlayIcon />}
+          </button>
+        )}
+      </div>
+    </div>
+  ),
+);
 MessageBubble.displayName = "MessageBubble";
 
 const AIAssistant: React.FC = () => {
@@ -192,6 +246,7 @@ const AIAssistant: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const speakingRef = useRef<string | null>(null);
   // Keep a ref to latest messages to avoid stale closures in sendMessage
   const messagesRef = useRef(chatState.messages);
   useEffect(() => {
@@ -340,6 +395,73 @@ const AIAssistant: React.FC = () => {
     [sendMessage],
   );
 
+  // ── Audio Playback ─────────────────────────────────────────────────────────
+  const playAudio = useCallback(
+    (messageId: string) => {
+      const msg = chatState.messages.find((m) => m.id === messageId);
+      if (!msg || msg.role !== "assistant") return;
+
+      const synth = window.speechSynthesis;
+
+      // Stop any currently playing audio if clicking on a new message
+      if (speakingRef.current && speakingRef.current !== messageId) {
+        synth.cancel();
+        dispatch({
+          type: "SET_PLAYING",
+          payload: { id: speakingRef.current, isPlaying: false },
+        });
+      }
+
+      // If the same message is playing, stop it
+      if (speakingRef.current === messageId) {
+        synth.cancel();
+        speakingRef.current = null;
+        dispatch({
+          type: "SET_PLAYING",
+          payload: { id: messageId, isPlaying: false },
+        });
+        return;
+      }
+
+      // Start new playback
+      const utterance = new SpeechSynthesisUtterance(msg.content);
+      utterance.rate = 1;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+
+      utterance.onstart = () => {
+        speakingRef.current = messageId;
+        dispatch({
+          type: "SET_PLAYING",
+          payload: { id: messageId, isPlaying: true },
+        });
+      };
+
+      utterance.onend = () => {
+        if (speakingRef.current === messageId) {
+          speakingRef.current = null;
+          dispatch({
+            type: "SET_PLAYING",
+            payload: { id: messageId, isPlaying: false },
+          });
+        }
+      };
+
+      utterance.onerror = () => {
+        if (speakingRef.current === messageId) {
+          speakingRef.current = null;
+          dispatch({
+            type: "SET_PLAYING",
+            payload: { id: messageId, isPlaying: false },
+          });
+        }
+      };
+
+      synth.speak(utterance);
+    },
+    [chatState.messages],
+  );
+
   const isDisabled =
     chatState.status === "loading" || chatState.status === "streaming";
 
@@ -409,7 +531,7 @@ const AIAssistant: React.FC = () => {
             aria-label="Chat messages"
           >
             {chatState.messages.map((msg) => (
-              <MessageBubble key={msg.id} msg={msg} />
+              <MessageBubble key={msg.id} msg={msg} onPlayAudio={playAudio} />
             ))}
             {chatState.status === "loading" && <TypingIndicator />}
             {chatState.status === "error" && chatState.error && (
