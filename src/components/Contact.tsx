@@ -18,6 +18,14 @@ const Contact: React.FC = () => {
           <a className="btn primary" href={`mailto:${contactInfo.email}`}>
             Email
           </a>
+          <a
+            className="btn primary"
+            href="/resume.pdf"
+            download="Shrey_Jani_Resume.pdf"
+            aria-label="Download resume"
+          >
+            📄 Download Resume
+          </a>
           {contactInfo.socialLinks.map((link, index) => (
             <a
               key={index}

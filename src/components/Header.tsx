@@ -99,6 +99,14 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, isDarkTheme }) => {
           >
             {isDarkTheme ? "🌞" : "🌙"}
           </button>
+          <a
+            className="btn"
+            href="/resume.pdf"
+            download="Shrey_Jani_Resume.pdf"
+            aria-label="Download resume"
+          >
+            Resume
+          </a>
           <a className="btn" href="mailto:janishre@sheridancollege.ca">
             Contact
           </a>
