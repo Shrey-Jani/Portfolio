@@ -14,6 +14,30 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, isDarkTheme }) => {
     }
   };
 
+  const handleResumeDownload = () => {
+    // Direct link for better Safari compatibility
+    const link = document.createElement("a");
+    link.href = `${process.env.PUBLIC_URL || ""}/Shrey_Jani_Resume.pdf`;
+    link.download = "Shrey_Jani_Resume.pdf";
+    link.rel = "noopener noreferrer";
+
+    // For Safari: Use target="_blank" as fallback
+    const isChrome =
+      /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+    const isSafari =
+      /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+
+    if (isSafari) {
+      // Safari: Open in new tab (browser will handle it)
+      window.open(link.href, "_blank");
+    } else {
+      // Chrome and others: Use download attribute
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   return (
     <header>
       <div className="container nav">
@@ -99,14 +123,13 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, isDarkTheme }) => {
           >
             {isDarkTheme ? "🌞" : "🌙"}
           </button>
-          <a
+          <button
             className="btn"
-            href="/resume.pdf"
-            download="Shrey_Jani_Resume.pdf"
+            onClick={handleResumeDownload}
             aria-label="Download resume"
           >
             Resume
-          </a>
+          </button>
           <a className="btn" href="mailto:janishre@sheridancollege.ca">
             Contact
           </a>

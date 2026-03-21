@@ -25,7 +25,6 @@ const Projects: React.FC = () => {
         >
           <h2 style={{ margin: "0" }}>Projects</h2>
         </div>
-
         <div
           className="grid"
           style={{
@@ -189,8 +188,8 @@ const Projects: React.FC = () => {
               </div>
             </article>
           ))}
-        </div>
-      </SpotlightCard>
+        </div>{" "}
+      </SpotlightCard>{" "}
     </section>
   );
 };

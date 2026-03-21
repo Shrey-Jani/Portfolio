@@ -3,6 +3,27 @@ import { contactInfo } from "../data/portfolio";
 import SpotlightCard from "./SpotlightCard";
 
 const Contact: React.FC = () => {
+  const handleResumeDownload = () => {
+    // Direct link for better Safari compatibility
+    const link = document.createElement("a");
+    link.href = `${process.env.PUBLIC_URL || ""}/Shrey_Jani_Resume.pdf`;
+    link.download = "Shrey_Jani_Resume.pdf";
+    link.rel = "noopener noreferrer";
+
+    // For Safari: Use target="_blank" as fallback
+    const isSafari =
+      /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+
+    if (isSafari) {
+      // Safari: Open in new tab (browser will handle it)
+      window.open(link.href, "_blank");
+    } else {
+      // Chrome and others: Use download attribute
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
   return (
     <section id="contact" className="container" style={{ marginTop: "24px" }}>
       <SpotlightCard
@@ -18,14 +39,13 @@ const Contact: React.FC = () => {
           <a className="btn primary" href={`mailto:${contactInfo.email}`}>
             Email
           </a>
-          <a
+          <button
             className="btn primary"
-            href="/resume.pdf"
-            download="Shrey_Jani_Resume.pdf"
+            onClick={handleResumeDownload}
             aria-label="Download resume"
           >
             📄 Download Resume
-          </a>
+          </button>
           {contactInfo.socialLinks.map((link, index) => (
             <a
               key={index}
