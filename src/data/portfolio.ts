@@ -82,11 +82,23 @@ export const certificates: Certificate[] = [
     title: "Capstone Competition Finalist",
     issuer: "Sheridan College",
     issued: "2025",
-    description:
-      "Finalist — Team Sugar Cubed Creations at the Information Systems Engineering Capstone Competition 2025, hosted by Sheridan College Institute of Technology and Advanced Learning.",
+    description: "",
     image: {
       src: "/images/sheridan.jpg",
       alt: "Sheridan Capstone Competition Finalist certificate",
+    },
+  },
+  {
+    id: 3,
+    title: "Python Data Science",
+    issuer: "IBM",
+    issued: "2025",
+    description: " ",
+    credentialUrl:
+      "https://www.credly.com/badges/b8c7987f-5c47-4f44-a945-a8acb5cfedbb/public_url",
+    image: {
+      src: "/images/IBM.png",
+      alt: "IBM Python Data Science certificate",
     },
   },
 ];

@@ -74,7 +74,6 @@ const App: React.FC = () => {
         <Projects />
         <Experience />
         <Certificates />
-
         <Contact />
       </main>
 
