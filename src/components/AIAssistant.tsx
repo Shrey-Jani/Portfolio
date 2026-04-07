@@ -125,7 +125,7 @@ function chatReducer(state: ChatState, action: ChatAction): ChatState {
 }
 
 const ChatIcon = () => (
-  <svg viewBox="0 0 0 24 24" fill="currentColor" aria-hidden="true">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
   </svg>
 );
@@ -145,7 +145,7 @@ const CloseIcon = () => (
 
 const SendIcon = () => (
   <svg
-    viewBox="0 0  24 24"
+    viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
     strokeWidth="2"
@@ -182,7 +182,7 @@ const StopIcon = () => (
 
 const AvatarIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-    <path d="M12 2a5 5 0 1 1 - 10A5 5 0 0 1 12 2zm0 13c5.33 0 8 2.67 8 4v1H4v-1c0-1.33 2.67-4 8-4z" />
+    <path d="M12 2a5 5 0 1 1-10A5 5 0 0 1 12 2zm0 13c5.33 0 8 2.67 8 4v1H4v-1c0-1.33 2.67-4 8-4z" />
   </svg>
 );
 
@@ -291,7 +291,7 @@ const AIAssistant: React.FC = () => {
     )
       return;
 
-    const apikey = process.env.REACT_APP_OPENAPI_KEY;
+    const apikey = process.env.REACT_APP_OPENAI_API_KEY;
     if (!apikey) {
       dispatch({
         type: "SET_ERROR",
@@ -308,7 +308,7 @@ const AIAssistant: React.FC = () => {
     dispatch({ type: "ADD_USER_MSG", payload: userMsg });
     setInput("");
 
-    //Cnacel any in-flight request before starting a new one
+    //Cancel any in-flight request before starting a new one
     abortRef.current?.abort();
     abortRef.current = new AbortController();
 
