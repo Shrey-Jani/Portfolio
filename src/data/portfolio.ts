@@ -3,22 +3,6 @@ import { Project, Experience, ContactInfo, Certificate } from "../types";
 export const projects: Project[] = [
   {
     id: 1,
-    title: "Robo-Speaker",
-    description:
-      "Developed a robotic speaker in Python using the OS library, enabling automated text-to-speech functionality for seamless voice output.",
-    technologies: ["Python"],
-    codeUrl: "https://github.com/Shrey-Jani/Python.git",
-  },
-  {
-    id: 2,
-    title: "iOS Calculator",
-    description:
-      "Built a sleek iOS Calculator in SwiftUI with MVVM, covering core arithmetic, percentage, sign toggle, and continuous operation chaining.",
-    technologies: ["Swift"],
-    codeUrl: "https://github.com/Shrey-Jani/iOS-Calculator.git",
-  },
-  {
-    id: 3,
     title: "Capstone Project",
     description:
       "Sugar Cubed Creation — a production-ready, mobile-first e-commerce storefront for a home-based cookie business, built with Next.js (TypeScript), Supabase/Postgres, Prisma, and Square.",
@@ -26,6 +10,16 @@ export const projects: Project[] = [
     technologies: ["Node", "Next.js", "Supabase"],
     codeUrl: "https://github.com/Yagna3903/sugar-cubed-creation.git",
   },
+  {
+    id: 2,
+    title: "Stock Sense",
+    description:
+      "Built a Stock Predicting Model using Python, React and Node.JS, showcasing my AI and ML knowledge.",
+    liveUrl: "https://frontend-00g7.onrender.com/",
+    technologies: ["Python","React", "GCP"],
+    codeUrl: "https://github.com/Shrey-Jani/Stock-Sense.git",
+  },
+  
 ];
 
 export const experiences: Experience[] = [
@@ -33,7 +27,7 @@ export const experiences: Experience[] = [
     id: 1,
     title: "Full‑Stack Developer Volunteer",
     company: "Hackville",
-    period: "October 2025 - Present",
+    period: "October 2025 - February 2026",
     responsibilities: [
       "Improved user experience and event efficiency by developing key features for Hackville’s hackathon portal, collaborating with designers and organizers, ensuring smooth operations for 400+ attendees.",
       "Delivered incremental product updates in an agile environment by coordinating with cross-functional teams of developers, designers, and managers, resulting in a faster release cycle and a more reliable event platform.",
