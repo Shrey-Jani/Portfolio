@@ -5,7 +5,7 @@ export const projects: Project[] = [
     id: 1,
     title: "Capstone Project",
     description:
-      "Sugar Cubed Creation — a production-ready, mobile-first e-commerce storefront for a home-based cookie business, built with Next.js (TypeScript), Supabase/Postgres, Prisma, and Square.",
+      "Sugar Cubed Creation a production-ready, mobile-first e-commerce storefront for a home-based cookie business, built with Next.js (TypeScript), Supabase/Postgres, Prisma, and Square.",
     liveUrl: "https://sugar-cubed-creations.vercel.app",
     technologies: ["Node", "Next.js", "Supabase"],
     codeUrl: "https://github.com/Yagna3903/sugar-cubed-creation.git",
@@ -18,6 +18,14 @@ export const projects: Project[] = [
     liveUrl: "https://frontend-00g7.onrender.com/",
     technologies: ["Python","React", "GCP"],
     codeUrl: "https://github.com/Shrey-Jani/Stock-Sense.git",
+  },
+  {
+    id:3,
+    title: "GTA Air Transit",
+    description:"GTA Air Transit serves as a modern, user-friendly airport transfer service booking platform, designed to simplify travel to and from Pearson International Airport and surrounding areas in the Greater Toronto Area.",
+    liveUrl: "https://gtaairtransit.com",
+    technologies: ["Wordpress", "PHP", "JavaScript"],
+    codeUrl: "https://github.com/Shrey-Jani/GTA-Transit.git",
   },
   
 ];
