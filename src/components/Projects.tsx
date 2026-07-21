@@ -1,195 +1,90 @@
 import React, { useState } from "react";
 import { projects } from "../data/portfolio";
-import SpotlightCard from "./SpotlightCard";
-import RobotSpeakerAnimation from "./RobotSpeakerAnimation";
-import IOSCalculatorAnimation from "./IOSCalculatorAnimation";
 import CookieAnimation from "./CookieAnimation";
+import StockAnimation from "./StockAnimation";
+import SectionHead from "./SectionHead";
+import Reveal from "./Reveal";
+
+const monogram = (title: string) =>
+  title
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase();
 
 const Projects: React.FC = () => {
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  const [hovered, setHovered] = useState<number | null>(null);
 
   return (
-    <section id="projects" className="container">
-      <SpotlightCard
-        className="reveal"
-        spotlightColor="rgba(255, 92, 230, 0.3)"
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "12px",
-            flexWrap: "wrap",
-          }}
-        >
-          <h2 style={{ margin: "0" }}>Projects</h2>
-        </div>
-        <div
-          className="grid"
-          style={{
-            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            gap: "18px",
-            marginTop: "6px",
-          }}
-        >
-          {projects.map((project) => (
+    <section id="projects" className="container section-shell">
+      <Reveal>
+        <SectionHead
+          eyebrow="Selected work"
+          title="Featured"
+          grad="Projects"
+          sub="A few things I've designed, built, and shipped end-to-end."
+        />
+      </Reveal>
+
+      <div className="proj-grid">
+        {projects.map((project, i) => (
+          <Reveal key={project.id} delay={i * 0.08}>
             <article
-              key={project.id}
-              className="project"
-              onMouseEnter={() => setHoveredProject(project.id)}
-              onMouseLeave={() => setHoveredProject(null)}
+              className="glass proj-card"
+              onMouseEnter={() => setHovered(project.id)}
+              onMouseLeave={() => setHovered(null)}
             >
-              <div
-                className="cover"
-                aria-hidden="true"
-                style={{
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
-                {/* Show Robot-Speaker animation for the Robo-Speaker project */}
-                {project.title === "Robo-Speaker" && (
-                  <div
-                    className="project-animation"
-                    style={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "60%",
-                      transform: "translate(-50%, -50%)",
-                      zIndex: 2,
-                    }}
-                  >
-                    <RobotSpeakerAnimation
-                      isActive={hoveredProject === project.id}
-                      size={120}
-                    />
-                  </div>
-                )}
-                {/* Show iOS Calculator animation for the iOS Calculator project */}
-                {project.title === "iOS Calculator" && (
-                  <div
-                    className="project-animation"
-                    style={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "60%",
-                      transform: "translate(-50%, -50%)",
-                      zIndex: 2,
-                    }}
-                  >
-                    <IOSCalculatorAnimation
-                      isActive={hoveredProject === project.id}
-                      size={120}
-                    />
-                  </div>
-                )}
-                {/* Show Cookie animation for the Capstone Project */}
-                {project.title === "Capstone Project" && (
-                  <div
-                    className="project-animation"
-                    style={{
-                      position: "absolute",
-                      top: "50%",
-                      left: "65%",
-                      transform: "translate(-50%, -50%)",
-                      zIndex: 2,
-                    }}
-                  >
-                    <CookieAnimation
-                      isActive={hoveredProject === project.id}
-                      size={250}
-                    />
-                  </div>
+              <div className="proj-cover" aria-hidden="true">
+                {project.title === "Capstone Project" ? (
+                  <CookieAnimation isActive={hovered === project.id} size={200} />
+                ) : project.title === "Stock Sense" ? (
+                  <StockAnimation isActive={hovered === project.id} size={230} />
+                ) : (
+                  <span className="proj-monogram">{monogram(project.title)}</span>
                 )}
               </div>
-              <div className="project-content">
-                <h3
-                  style={{ display: "flex", alignItems: "center", gap: "12px" }}
-                >
-                  {project.title}
-                  {/* Small robot icon next to Robo-Speaker title */}
-                  {project.title === "Robo-Speaker" && (
-                    <RobotSpeakerAnimation
-                      isActive={hoveredProject === project.id}
-                      size={24}
-                    />
-                  )}
-                  {/* Small calculator icon next to iOS Calculator title */}
-                  {project.title === "iOS Calculator" && (
-                    <IOSCalculatorAnimation
-                      isActive={hoveredProject === project.id}
-                      size={24}
-                    />
-                  )}
-                  {/* Small cookie icon next to Capstone Project title */}
-                  {project.title === "Capstone Project" && (
-                    <CookieAnimation
-                      isActive={hoveredProject === project.id}
-                      size={32}
-                    />
-                  )}
-                </h3>
-                <p className="text-muted">{project.description}</p>
-                <div className="projects meta">
+
+              <div className="proj-body">
+                <h3>{project.title}</h3>
+                <p className="proj-desc">{project.description}</p>
+
+                <div className="proj-meta">
                   {project.technologies.map((tech, index) => (
-                    <span key={index} className="tag">
+                    <span key={index} className="tech-chip">
                       {tech}
                     </span>
                   ))}
-                  {project.title === "Capstone Project" ? (
-                    <>
-                      {project.liveUrl && (
-                        <a
-                          className="tag live-btn"
-                          href={project.liveUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Live Demo
-                        </a>
-                      )}
-                      {project.codeUrl && (
-                        <a
-                          className="tag code-btn"
-                          href={project.codeUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Code
-                        </a>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      {project.codeUrl && (
-                        <a
-                          className="tag code-btn"
-                          href={project.codeUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Code
-                        </a>
-                      )}
-                      {project.liveUrl && (
-                        <a
-                          className="tag live-btn"
-                          href={project.liveUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Live Demo
-                        </a>
-                      )}
-                    </>
+                </div>
+
+                <div className="proj-links">
+                  {project.liveUrl && (
+                    <a
+                      className="btn primary"
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <span>Live Demo</span>
+                    </a>
+                  )}
+                  {project.codeUrl && (
+                    <a
+                      className="btn"
+                      href={project.codeUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Code
+                    </a>
                   )}
                 </div>
               </div>
             </article>
-          ))}
-        </div>{" "}
-      </SpotlightCard>{" "}
+          </Reveal>
+        ))}
+      </div>
     </section>
   );
 };

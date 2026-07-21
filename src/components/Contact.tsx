@@ -1,65 +1,60 @@
 import React from "react";
 import { contactInfo } from "../data/portfolio";
-import SpotlightCard from "./SpotlightCard";
+import Reveal from "./Reveal";
+
+const handleResumeDownload = () => {
+  const link = document.createElement("a");
+  link.href = `${process.env.PUBLIC_URL || ""}/Shrey_Jani_Resume.pdf`;
+  link.download = "Shrey_Jani_Resume.pdf";
+  link.rel = "noopener noreferrer";
+  const isSafari =
+    /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+  if (isSafari) {
+    window.open(link.href, "_blank");
+  } else {
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+};
 
 const Contact: React.FC = () => {
-  const handleResumeDownload = () => {
-    // Direct link for better Safari compatibility
-    const link = document.createElement("a");
-    link.href = `${process.env.PUBLIC_URL || ""}/Shrey_Jani_Resume.pdf`;
-    link.download = "Shrey_Jani_Resume.pdf";
-    link.rel = "noopener noreferrer";
-
-    // For Safari: Use target="_blank" as fallback
-    const isSafari =
-      /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
-
-    if (isSafari) {
-      // Safari: Open in new tab (browser will handle it)
-      window.open(link.href, "_blank");
-    } else {
-      // Chrome and others: Use download attribute
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  };
   return (
-    <section id="contact" className="container" style={{ marginTop: "24px" }}>
-      <SpotlightCard
-        className="reveal"
-        spotlightColor="rgba(16, 185, 129, 0.3)"
-      >
-        <h2>Contact</h2>
-        <p>Open to New Grads Job Roles. Let's connect.</p>
-        <div
-          className="contact-actions"
-          style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}
-        >
-          <a className="btn primary" href={`mailto:${contactInfo.email}`}>
-            Email
-          </a>
-          <button
-            className="btn primary"
-            onClick={handleResumeDownload}
-            aria-label="Download resume"
-          >
-            📄 Download Resume
-          </button>
-          {contactInfo.socialLinks.map((link, index) => (
-            <a
-              key={index}
-              className="btn"
-              href={link.url}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={link.label}
-            >
-              {link.name}
+    <section id="contact" className="container section-shell">
+      <Reveal>
+        <div className="glass contact-card">
+          <span className="eyebrow" style={{ margin: "0 auto" }}>
+            Get in touch
+          </span>
+          <h2 className="section-title" style={{ marginTop: 16 }}>
+            Let's build something <span className="grad">together</span>
+          </h2>
+          <p className="section-sub" style={{ margin: "12px auto 0" }}>
+            Open to new-grad software, cloud, and data roles. My inbox is always open.
+          </p>
+
+          <div className="contact-actions center" style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <a className="btn primary" href={`mailto:${contactInfo.email}`}>
+              <span>Email me</span>
             </a>
-          ))}
+            <button className="btn" onClick={handleResumeDownload} aria-label="Download resume">
+              Download Resume
+            </button>
+            {contactInfo.socialLinks.map((link, index) => (
+              <a
+                key={index}
+                className="btn"
+                href={link.url}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={link.label}
+              >
+                {link.name}
+              </a>
+            ))}
+          </div>
         </div>
-      </SpotlightCard>
+      </Reveal>
     </section>
   );
 };

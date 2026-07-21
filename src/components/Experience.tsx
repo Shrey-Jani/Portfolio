@@ -1,35 +1,40 @@
 import React from "react";
 import { experiences } from "../data/portfolio";
-import SpotlightCard from "./SpotlightCard";
+import SectionHead from "./SectionHead";
+import Reveal from "./Reveal";
 
 const Experience: React.FC = () => {
   return (
-    <section
-      id="experience"
-      className="container"
-      style={{ marginTop: "24px" }}
-    >
-      <div className="grid" style={{ gridTemplateColumns: "1fr" }}>
-        <SpotlightCard
-          className="reveal"
-          spotlightColor="rgba(124, 58, 237, 0.3)"
-        >
-          <h2>Experience</h2>
+    <section id="experience" className="container section-shell">
+      <Reveal>
+        <SectionHead
+          eyebrow="Career"
+          title="Where I've"
+          grad="Worked"
+          sub="Full-stack roles across startups, hackathons, and community projects."
+        />
+      </Reveal>
 
-          {experiences.map((exp, index) => (
-            <div key={exp.id} style={{ marginTop: index > 0 ? "14px" : "0" }}>
-              <h3>
-                {exp.title} — {exp.company}
-              </h3>
-              <p className="text-muted">{exp.period}</p>
-              <ul className="plain">
-                {exp.responsibilities.map((responsibility, idx) => (
-                  <li key={idx}>{responsibility}</li>
-                ))}
-              </ul>
-            </div>
+      <div className="glass" style={{ padding: "34px 30px" }}>
+        <div className="timeline">
+          {experiences.map((exp, i) => (
+            <Reveal key={exp.id} delay={i * 0.08}>
+              <div className="tl-item">
+                <div className="tl-head">
+                  <h3 className="tl-role">
+                    {exp.title} <span className="co">· {exp.company}</span>
+                  </h3>
+                  <span className="tl-period">{exp.period}</span>
+                </div>
+                <ul>
+                  {exp.responsibilities.map((r, idx) => (
+                    <li key={idx}>{r}</li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
           ))}
-        </SpotlightCard>
+        </div>
       </div>
     </section>
   );
