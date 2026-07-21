@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import AIAssistant from "./AIAssistant";
 
 interface HeaderProps {
   toggleTheme: () => void;
@@ -74,7 +73,6 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, isDarkTheme }) => {
         </nav>
 
         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-          <AIAssistant />
           <button
             className="btn"
             onClick={toggleTheme}
