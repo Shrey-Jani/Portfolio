@@ -9,7 +9,9 @@ const ROLES = [
 ];
 
 const scrollToSection = (id: string) => {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  document
+    .getElementById(id)
+    ?.scrollIntoView({ behavior: "smooth", block: "start" });
 };
 
 const handleResumeDownload = () => {
@@ -41,7 +43,7 @@ const Hero: React.FC = () => {
   useEffect(() => {
     const id = setInterval(
       () => setRoleIdx((i) => (i + 1) % ROLES.length),
-      2600
+      2600,
     );
     return () => clearInterval(id);
   }, []);
@@ -76,14 +78,17 @@ const Hero: React.FC = () => {
           </motion.div>
 
           <motion.p className="hero-lead" {...rise(3)}>
-            Information Systems Engineering graduate from Sheridan College. I build
-            scalable, cloud-native full-stack products with React, Node.js, Spring
-            Boot, and AWS — turning complex backend logic into interfaces people
-            actually enjoy using.
+            Information Systems Engineering graduate from Sheridan College. I
+            build scalable, cloud-native full-stack products with React,
+            Node.js, Spring Boot, and AWS — turning complex backend logic into
+            interfaces people actually enjoy using.
           </motion.p>
 
           <motion.div className="hero-cta" {...rise(4)}>
-            <button className="btn primary" onClick={() => scrollToSection("projects")}>
+            <button
+              className="btn primary"
+              onClick={() => scrollToSection("projects")}
+            >
               <span>View Projects</span>
             </button>
             <button className="btn" onClick={handleResumeDownload}>
@@ -110,25 +115,24 @@ const Hero: React.FC = () => {
 
         {/* Right — portrait */}
         <motion.div
-          className="hero-portrait"
+          className="hero-portrait-wrap"
           initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.25, duration: 0.7, ease: "easeOut" }}
         >
-          <img
-            src={`${process.env.PUBLIC_URL}/images/pic_web.jpg`}
-            alt="Shrey Jani"
-            loading="eager"
-          />
-          <div className="hero-portrait-caption">
-            <div>
-              <div className="pc-name">Shrey Jani</div>
-              <div className="pc-loc">Toronto, Canada</div>
-            </div>
+          <div className="hero-portrait">
+            <img
+              src={`${process.env.PUBLIC_URL}/images/pic_web.jpg`}
+              alt="Shrey Jani"
+              loading="eager"
+            />
+          </div>
+          <div className="hero-portrait-meta">
             <span className="status-pill">
               <span className="status-dot" />
               Open to work
             </span>
+            <span className="pc-loc">Toronto, Canada</span>
           </div>
         </motion.div>
       </div>
