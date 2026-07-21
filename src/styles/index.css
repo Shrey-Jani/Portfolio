@@ -1053,28 +1053,15 @@ footer {
   text-align: center;
 }
 
-/* Performance Optimizations */
-* {
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
 /* GPU Acceleration for Smooth Scrolling */
 html {
   scroll-behavior: smooth;
-}
-
-body {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000;
 }
 
 /* Liquid Ether Background Adjustments */
 .App {
   position: relative;
   min-height: 100vh;
-  transform: translateZ(0);
 }
 
 /* Background Canvas Optimization */
@@ -1397,21 +1384,6 @@ section {
     padding: 6px;
     margin-top: 6px;
   }
-}
-
-h1 {
-  font-size: clamp(18px, 7vw, 28px) !important;
-}
-
-h2 {
-  font-size: clamp(16px, 5vw, 22px) !important;
-}
-
-.btn {
-  width: 100%;
-  justify-content: center;
-  padding: 10px 12px;
-  font-size: 13px;
 }
 
 /* Mobile Background Optimizations */
