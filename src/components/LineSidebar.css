@@ -1,0 +1,92 @@
+.line-sidebar {
+  position: fixed;
+  right: 26px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 60;
+}
+
+.line-sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.ls-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  padding: 4px 0;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.ls-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateX(6px);
+  transition: opacity 0.28s ease, transform 0.28s ease, color 0.28s ease;
+  white-space: nowrap;
+}
+
+.ls-line {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: 0.5;
+  transition: width 0.32s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.28s ease, background 0.28s ease, box-shadow 0.28s ease;
+}
+
+.ls-item:hover .ls-label {
+  opacity: 1;
+  transform: translateX(0);
+  color: var(--text);
+}
+.ls-item:hover .ls-line {
+  width: 36px;
+  opacity: 1;
+}
+
+.ls-item.active .ls-label {
+  opacity: 1;
+  transform: translateX(0);
+  color: var(--text);
+}
+.ls-item.active .ls-line {
+  width: 44px;
+  opacity: 1;
+  background: linear-gradient(90deg, var(--brand-2), var(--brand-3));
+  box-shadow: 0 0 12px -1px var(--brand-2);
+}
+
+.ls-item:focus-visible {
+  outline: none;
+}
+.ls-item:focus-visible .ls-line {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 35%, transparent);
+}
+
+@media (max-width: 1024px) {
+  .line-sidebar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ls-label,
+  .ls-line {
+    transition: none;
+  }
+}

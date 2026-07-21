@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import AIAssistant from "./AIAssistant";
 
 interface HeaderProps {
@@ -7,107 +8,65 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ toggleTheme, isDarkTheme }) => {
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleResumeDownload = () => {
-    // Direct link for better Safari compatibility
     const link = document.createElement("a");
     link.href = `${process.env.PUBLIC_URL || ""}/Shrey_Jani_Resume.pdf`;
     link.download = "Shrey_Jani_Resume.pdf";
     link.rel = "noopener noreferrer";
-
-    // For Safari: Use target="_blank" as fallback
-    const isChrome =
-      /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
     const isSafari =
       /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
-
     if (isSafari) {
-      // Safari: Open in new tab (browser will handle it)
       window.open(link.href, "_blank");
     } else {
-      // Chrome and others: Use download attribute
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     }
   };
 
+  const goContact = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const scroll = () =>
+      document
+        .getElementById("contact")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (location.pathname !== "/") {
+      navigate("/");
+      window.setTimeout(scroll, 120);
+    } else {
+      scroll();
+    }
+  };
+
   return (
     <header>
       <div className="container nav">
-        <a
-          className="brand"
-          href="#top"
-          aria-label="Home"
-          onClick={(e) => {
-            e.preventDefault();
-            scrollToSection("top");
-          }}
-        >
+        <Link className="brand" to="/" aria-label="Home">
           <div className="badge" aria-hidden="true"></div>
-          <span>🧑🏽‍💻Shrey Jani</span>
-        </a>
+          <span>Shrey Jani</span>
+        </Link>
 
         <nav>
           <ul>
             <li>
-              <a
-                href="#projects"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection("projects");
-                }}
-              >
-                Projects
-              </a>
+              <NavLink to="/" end>
+                Home
+              </NavLink>
             </li>
             <li>
-              <a
-                href="#experience"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection("experience");
-                }}
-              >
-                Experience
-              </a>
+              <NavLink to="/projects">Projects</NavLink>
             </li>
             <li>
-              <a
-                href="#certificates"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection("certificates");
-                }}
-              >
-                Certificates
-              </a>
+              <NavLink to="/experience">Experience</NavLink>
             </li>
             <li>
-              <a
-                href="#about"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection("about");
-                }}
-              >
-                About
-              </a>
+              <NavLink to="/certificates">Certificates</NavLink>
             </li>
             <li>
-              <a
-                href="#contact"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection("contact");
-                }}
-              >
+              <a href="/#contact" onClick={goContact}>
                 Contact
               </a>
             </li>
@@ -130,9 +89,6 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, isDarkTheme }) => {
           >
             Resume
           </button>
-          <a className="btn" href="mailto:janishre@sheridancollege.ca">
-            Contact
-          </a>
         </div>
       </div>
     </header>
