@@ -80,7 +80,7 @@ const Hero: React.FC = () => {
           <motion.p className="hero-lead" {...rise(3)}>
             Information Systems Engineering graduate from Sheridan College. I
             build scalable, cloud-native full-stack products with React,
-            Node.js, Spring Boot, and AWS — turning complex backend logic into
+            Node.js, Spring Boot, and AWS turning complex backend logic into
             interfaces people actually enjoy using.
           </motion.p>
 
